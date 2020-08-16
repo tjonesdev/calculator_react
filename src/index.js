@@ -212,7 +212,7 @@ const DarkMode = (props) => {
       onMouseDown={props.handleToggle}
     >
       <i
-        class={`fas ${!props.dark ? "light-moon fa-moon" : "dark-sun fa-sun"}`}
+        className={`fas ${!props.dark ? "light-moon fa-moon" : "dark-sun fa-sun"}`}
       ></i>
     </button>
   );
@@ -335,7 +335,7 @@ class Calculator extends React.Component {
     document.addEventListener("keyup", this.handleKeyUp);
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     window.removeEventListener("resize", this.handleResize);
     document.removeEventListener("keydown", this.handleKeyDown);
     document.removeEventListener("keyup", this.handleKeyUp);
@@ -432,13 +432,15 @@ class Calculator extends React.Component {
         playState: "paused"
       });
     }
+    const eId = e.target.id;
+    const eValue = e.target.value;
     this.setState(
       {
         prev: [
           this.state.prev[1],
-          event.target.id === "decimal"
+          eId === "decimal"
             ? "decimal"
-            : event.target.id === "plus-minus"
+            : eId === "plus-minus"
             ? "plus-minus"
             : "num"
         ]
@@ -447,32 +449,32 @@ class Calculator extends React.Component {
         if (this.state.prev[0] === "equals") {
           this.setState({
             display:
-              event.target.id === "decimal"
-                ? 0 + event.target.value
-                : Number(event.target.value),
+              eId === "decimal"
+                ? 0 + eValue
+                : Number(eValue),
             output: [],
             current: [],
             total: 0
           });
           // DECIMAL
-        } else if (event.target.id === "decimal") {
+        } else if (eId === "decimal") {
           if (
             this.state.prev[0] === "operator" ||
             this.state.prev[0] === "percent"
           ) {
             this.setState({
-              display: 0 + event.target.value
+              display: 0 + eValue
             });
           } else {
             this.setState({
               display:
                 this.state.display % 1 !== 0 || this.state.prev[0] === "decimal"
                   ? this.state.display
-                  : this.state.display + event.target.value
+                  : this.state.display + eValue
             });
           }
           // PLUS-MINUS
-        } else if (event.target.id === "plus-minus") {
+        } else if (eId === "plus-minus") {
           if (this.state.prev[0] !== "operator") {
             this.setState({
               display:
@@ -491,16 +493,16 @@ class Calculator extends React.Component {
             this.setState({
               display:
                 this.state.display === 0
-                  ? event.target.value
-                  : this.state.display + event.target.value
+                  ? eValue
+                  : this.state.display + eValue
             });
           } else {
             this.setState({
               display:
-                this.state.display == 0 ||
+                this.state.display === 0 ||
                 this.state.prev[0] === "operator" ||
                 this.state.prev[0] === "percent"
-                  ? event.target.value
+                  ? eValue
                   : (this.state.display % 1 !== 0 ||
                       this.state.prev[0] === "decimal") &&
                     this.state.display.toString().length >= 17
@@ -508,7 +510,7 @@ class Calculator extends React.Component {
                   : this.state.display % 1 === 0 &&
                     this.state.display.toString().length >= 16
                   ? this.state.display
-                  : this.state.display + event.target.value
+                  : this.state.display + eValue
             });
           }
         }
@@ -524,18 +526,19 @@ class Calculator extends React.Component {
         playState: "paused"
       });
     }
+    const eValue = e.target.value;
     this.setState(
       {
         prev: [this.state.prev[1], "operator"],
         output: [
           ...this.state.output,
           Number(this.state.display),
-          e.target.value
+          eValue
         ],
         current: [
           ...this.state.current,
           Number(this.state.display),
-          e.target.value
+          eValue
         ],
         display: Number(this.state.display)
       },
@@ -551,10 +554,10 @@ class Calculator extends React.Component {
         if (this.state.prev[0] === "operator") {
           this.setState(
             {
-              output: this.state.output.slice(0, -3).concat(event.target.value),
+              output: this.state.output.slice(0, -3).concat(eValue),
               current: this.state.current
                 .slice(0, -3)
-                .concat(event.target.value)
+                .concat(eValue)
             },
             () => {
               this.setState({
@@ -568,8 +571,8 @@ class Calculator extends React.Component {
         ) {
           this.setState({
             display: this.state.total,
-            output: [this.state.total, event.target.value],
-            current: [this.state.total, event.target.value]
+            output: [this.state.total, eValue],
+            current: [this.state.total, eValue]
           });
         } else if (this.state.current.length === 4) {
           operators.map((o) => {
@@ -580,7 +583,7 @@ class Calculator extends React.Component {
               );
               this.setState(
                 {
-                  current: [current, event.target.value]
+                  current: [current, eValue]
                 },
                 () => {
                   this.setState({
@@ -629,6 +632,7 @@ class Calculator extends React.Component {
         playState: "paused"
       });
     }
+    const eValue = e.target.value;
     this.setState(
       {
         prev: [this.state.prev[1], "equals"],
@@ -640,7 +644,7 @@ class Calculator extends React.Component {
           this.setState(
             {
               current: [this.state.current[0]],
-              output: this.state.output.slice(0, -1).concat(event.target.value),
+              output: this.state.output.slice(0, -1).concat(eValue),
               total: this.state.current[0]
             },
             () => {
@@ -660,9 +664,9 @@ class Calculator extends React.Component {
                   output: [
                     ...this.state.output,
                     this.state.display,
-                    event.target.value
+                    eValue
                   ],
-                  current: [current, event.target.value]
+                  current: [current, eValue]
                 },
                 () => {
                   outputDec = this.state.output[this.state.output.length - 2];
