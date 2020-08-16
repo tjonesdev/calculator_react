@@ -13,6 +13,7 @@ body,
   min-height: 550px;
 }
 .calculator {
+  position: relative;
   height: 100%;
 }
 .dark-mode {
