@@ -4,12 +4,6 @@ command = "npm run build"
 
 [[redirects]]
 from = "https://tjonesdev-calculator.netlify.app"
-to = "https://www.tjonesdev.com/calculator"
-status = 301
-force = true
-
-[[redirects]]
-from = "https://calculator.tjonesdev.com"
-to = "https://www.tjonesdev.com/calculator"
+to = "https://calculator.tjonesdev.com"
 status = 301
 force = true
