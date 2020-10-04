@@ -1,6 +1,7 @@
-import './index.css';
-import React from 'react';
-import ReactDOM from 'react-dom';
+/* eslint-disable array-callback-return */
+import "./index.css";
+import React from "react";
+import ReactDOM from "react-dom";
 
 const calcKeys = [
   {
@@ -167,7 +168,7 @@ const calcKeys = [
   },
   {
     id: "bksp",
-    html: <i className="fas fa-backspace"></i>,
+    html: <i className='fas fa-backspace'></i>,
     val: "",
     key: [8],
     shift: false,
@@ -204,23 +205,23 @@ const operators = [
   }
 ];
 
-const DarkMode = (props) => {
+const DarkMode = props => {
   return (
     <button
-      id="dark-mode"
-      className="dark-mode"
-      onMouseDown={props.handleToggle}
-    >
+      id='dark-mode'
+      className='dark-mode'
+      onMouseDown={props.handleToggle}>
       <i
-        className={`fas ${!props.dark ? "light-moon fa-moon" : "dark-sun fa-sun"}`}
-      ></i>
+        className={`fas ${
+          !props.dark ? "light-moon fa-moon" : "dark-sun fa-sun"
+        }`}></i>
     </button>
   );
 };
 
-const Display = (props) => {
+const Display = props => {
   return (
-    <div className="display-all">
+    <div className='display-all'>
       {props.resetAnimation ? (
         <span></span>
       ) : (
@@ -228,22 +229,23 @@ const Display = (props) => {
           className={`animate ${
             !props.dark ? "light-animate" : "dark-animate"
           }`}
-          style={{ animation: "wipe .5s", animationPlayState: props.playState }}
-        ></span>
+          style={{
+            animation: "wipe .5s",
+            animationPlayState: props.playState
+          }}></span>
       )}
       <div
         className={`output-nums ${
           !props.dark ? "light-output-nums" : "dark-output-nums"
-        }`}
-      >
+        }`}>
         {props.output.join(" ")}
       </div>
-      <div className="display">{props.display}</div>
+      <div className='display'>{props.display}</div>
     </div>
   );
 };
 
-const ButtonPad = (props) => {
+const ButtonPad = props => {
   let handleClick;
   switch (props.type) {
     case "num":
@@ -279,14 +281,12 @@ const ButtonPad = (props) => {
           : "dark-btn dark-" + props.position + " dark-" + props.type
       } ${props.type} ${props.id === props.active ? "active" : ""}`}
       onMouseDown={handleClick}
-      value={props.val}
-    >
+      value={props.val}>
       {props.id === "clear" ? (
         <span
           className={`clear-circle ${
             !props.dark ? "light-clear-circle" : "dark-clear-circle"
-          }`}
-        >
+          }`}>
           {props.html}
         </span>
       ) : (
@@ -348,7 +348,7 @@ class Calculator extends React.Component {
       },
       () => {
         requestAnimationFrame(() => {
-          this.setState({ resetAnimation: false });
+          this.setState({resetAnimation: false});
         });
       }
     );
@@ -371,12 +371,12 @@ class Calculator extends React.Component {
       document
         .getElementById("dark-mode")
         .dispatchEvent(
-          new MouseEvent("mousedown", { bubbles: true, cancelable: true })
+          new MouseEvent("mousedown", {bubbles: true, cancelable: true})
         );
-      this.setState({ active: "dark-mode" });
+      this.setState({active: "dark-mode"});
     }
-    calcKeys.map((o) => {
-      o.key.map((k) => {
+    calcKeys.map(o =>
+      o.key.map(k => {
         if (e.keyCode === k) {
           if (
             e.shiftKey &&
@@ -386,9 +386,9 @@ class Calculator extends React.Component {
             document
               .getElementById(o.id)
               .dispatchEvent(
-                new MouseEvent("mousedown", { bubbles: true, cancelable: true })
+                new MouseEvent("mousedown", {bubbles: true, cancelable: true})
               );
-            this.setState({ active: o.id });
+            this.setState({active: o.id});
           } else if (
             !e.shiftKey &&
             !o.shift &&
@@ -397,9 +397,9 @@ class Calculator extends React.Component {
             document
               .getElementById(o.id)
               .dispatchEvent(
-                new MouseEvent("mousedown", { bubbles: true, cancelable: true })
+                new MouseEvent("mousedown", {bubbles: true, cancelable: true})
               );
-            this.setState({ active: o.id });
+            this.setState({active: o.id});
           } else if (
             e.keyCode !== 187 &&
             e.keyCode !== 56 &&
@@ -408,13 +408,13 @@ class Calculator extends React.Component {
             document
               .getElementById(o.id)
               .dispatchEvent(
-                new MouseEvent("mousedown", { bubbles: true, cancelable: true })
+                new MouseEvent("mousedown", {bubbles: true, cancelable: true})
               );
-            this.setState({ active: o.id });
+            this.setState({active: o.id});
           }
         }
-      });
-    });
+      })
+    );
   }
 
   handleKeyUp(e) {
@@ -448,10 +448,7 @@ class Calculator extends React.Component {
       () => {
         if (this.state.prev[0] === "equals") {
           this.setState({
-            display:
-              eId === "decimal"
-                ? 0 + eValue
-                : Number(eValue),
+            display: eId === "decimal" ? 0 + eValue : Number(eValue),
             output: [],
             current: [],
             total: 0
@@ -492,9 +489,7 @@ class Calculator extends React.Component {
           if (this.state.prev[0] === "plus-minus") {
             this.setState({
               display:
-                this.state.display === 0
-                  ? eValue
-                  : this.state.display + eValue
+                this.state.display === 0 ? eValue : this.state.display + eValue
             });
           } else {
             this.setState({
@@ -530,16 +525,8 @@ class Calculator extends React.Component {
     this.setState(
       {
         prev: [this.state.prev[1], "operator"],
-        output: [
-          ...this.state.output,
-          Number(this.state.display),
-          eValue
-        ],
-        current: [
-          ...this.state.current,
-          Number(this.state.display),
-          eValue
-        ],
+        output: [...this.state.output, Number(this.state.display), eValue],
+        current: [...this.state.current, Number(this.state.display), eValue],
         display: Number(this.state.display)
       },
       () => {
@@ -555,9 +542,7 @@ class Calculator extends React.Component {
           this.setState(
             {
               output: this.state.output.slice(0, -3).concat(eValue),
-              current: this.state.current
-                .slice(0, -3)
-                .concat(eValue)
+              current: this.state.current.slice(0, -3).concat(eValue)
             },
             () => {
               this.setState({
@@ -575,7 +560,7 @@ class Calculator extends React.Component {
             current: [this.state.total, eValue]
           });
         } else if (this.state.current.length === 4) {
-          operators.map((o) => {
+          operators.map(o => {
             if (o.hasOwnProperty(this.state.current[1])) {
               let current = o[this.state.current[1]](
                 Number(this.state.current[0]),
@@ -653,7 +638,7 @@ class Calculator extends React.Component {
             }
           );
         } else {
-          operators.map((o) => {
+          operators.map(o => {
             if (o.hasOwnProperty(this.state.current[1])) {
               let current = o[this.state.current[1]](
                 Number(this.state.current[0]),
@@ -661,11 +646,7 @@ class Calculator extends React.Component {
               );
               this.setState(
                 {
-                  output: [
-                    ...this.state.output,
-                    this.state.display,
-                    eValue
-                  ],
+                  output: [...this.state.output, this.state.display, eValue],
                   current: [current, eValue]
                 },
                 () => {
@@ -753,7 +734,7 @@ class Calculator extends React.Component {
       });
     }, 300);
     setTimeout(() => {
-      this.setState({ display: 0 });
+      this.setState({display: 0});
     }, 500);
   }
 
@@ -765,7 +746,7 @@ class Calculator extends React.Component {
         playState: "paused"
       });
     }
-    this.setState({ dark: !this.state.dark });
+    this.setState({dark: !this.state.dark});
   }
 
   render() {
@@ -776,10 +757,10 @@ class Calculator extends React.Component {
         return result;
       }, []);
 
-    const buttons = splitEvery(calcKeys, 4).map((split) => {
+    const buttons = splitEvery(calcKeys, 4).map(split => {
       return (
-        <div className="btn-row">
-          {split.map((i) => {
+        <div className='btn-row'>
+          {split.map(i => {
             return (
               <ButtonPad
                 id={i.id}
@@ -806,13 +787,11 @@ class Calculator extends React.Component {
       <div
         className={`container ${
           !this.state.dark ? "light-container" : "dark-container"
-        }`}
-      >
+        }`}>
         <div
           className={`calculator ${
             !this.state.dark ? "light-calculator" : "dark-calculator"
-          }`}
-        >
+          }`}>
           <DarkMode handleToggle={this.handleToggle} dark={this.state.dark} />
           <Display
             display={this.state.display}
@@ -824,8 +803,7 @@ class Calculator extends React.Component {
           <div
             className={`calc-body ${
               !this.state.dark ? "light-calc-body" : "dark-calc-body"
-            }`}
-          >
+            }`}>
             {buttons}
           </div>
         </div>
